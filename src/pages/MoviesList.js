@@ -6,7 +6,7 @@ import { addToFavorites, removeFromFavorites } from '../redux/actions';
 import { useLanguage } from '../context/LanguageContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import Pagination from './Pagination'; 
+import Pagination from '../Components/Pagination'; 
 
 const MoviesList = () => {
   const [movies, setMovies] = useState([]);
