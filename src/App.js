@@ -6,8 +6,8 @@ import store from './redux/store';
 import Navbar from './Components/Navbar';
 import { LanguageProvider } from './context/LanguageContext'; 
 
-import MoviesList from './Components/MoviesList';
-import MovieDetails from './Components/MovieDetails';
+import MoviesList from './pages/MoviesList';
+import MovieDetails from './pages/MovieDetails';
 import FavoritesPage from './pages/FavoritesPage';
 
 
