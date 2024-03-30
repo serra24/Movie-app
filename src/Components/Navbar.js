@@ -12,8 +12,11 @@ function CustomNavbar({ onSearch }) {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
+  const { changeLanguage } = useLanguage();
+
   const handleLanguageChange = (language) => {
-    // Handle language change
+    changeLanguage(language);
+    setSelectedLanguage(language);
   };
 
   const handleSubmit = (e) => {
@@ -47,7 +50,8 @@ function CustomNavbar({ onSearch }) {
                 {selectedLanguage === 'en' ? 'En' : 'Ar'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                {/* Language options */}
+                <Dropdown.Item onClick={() => handleLanguageChange('en')}>En</Dropdown.Item>
+                <Dropdown.Item onClick={() => handleLanguageChange('ar')}>Ar</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
             <Nav.Link as={Link} to="/favorites">
