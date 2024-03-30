@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../redux/actions';
 import { useLanguage } from '../context/LanguageContext';
 import Pagination from '../Components/Pagination'; 
-import MovieCard from './MovieCard';
+import MovieCard from '../Components/MovieCard'; 
 
 const MoviesList = () => {
   const [movies, setMovies] = useState([]);
