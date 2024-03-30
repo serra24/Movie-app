@@ -1,31 +1,56 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import MovieCard from './MovieCard'; 
 
-const SearchResults = ({ results }) => {
+function SearchResult({ searchQuery }) {
+  const [searchResults, setSearchResults] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      setLoading(true);
+      try {
+        const apiKey = 'dc186421333d8ad36f1a654387701e25';
+        const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchQuery}`;
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Failed to fetch search results');
+        }
+        const data = await response.json();
+        setSearchResults(data.results);
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+        setSearchResults([]);
+        setError('An error occurred while fetching search results.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (searchQuery) {
+      fetchSearchResults();
+    } else {
+      setSearchResults([]);
+      setError(null);
+    }
+  }, [searchQuery]);
+
   return (
-    <div className="container mt-4">
-      <h2>Search Results</h2>
-      {results.length === 0 ? (
-        <p>No results found.</p>
-      ) : (
-        <div className="row">
-          {results.map((movie) => (
-            <div key={movie.id} className="col-md-3 mb-4">
-              <Link to={`/movie/${movie.id}`}>
-                <img
-                  src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                  alt={movie.title}
-                  className="img-fluid"
-                />
-              </Link>
-              <p className="mt-2">{movie.title}</p>
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="container mt-4" style={{ minHeight: "400px" }}>
+      <h1 className="mb-4">Search Results for {searchQuery}</h1>
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+      <div className="row">
+        {searchResults.map((result) => (
+          <div key={result.id} className="col-md-4 mb-4">
+            <MovieCard movie={result} />
+          </div>
+        ))}
+      </div>
     </div>
   );
-};
+}
 
-export default SearchResults;
+export default SearchResult;
 

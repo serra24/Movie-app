@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link } from 'react-router-dom';
 import axios from '../services/axiosInstance';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../redux/actions';
 import { useLanguage } from '../context/LanguageContext';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../Components/Pagination'; 
+import MovieCard from './MovieCard';
 
 const MoviesList = () => {
   const [movies, setMovies] = useState([]);
@@ -81,24 +79,13 @@ const MoviesList = () => {
       </div>
       <div className="row">
         {movies.map((movie) => (
-          <div key={movie.id} className="col-md-3 mb-4">
-            <Link to={`/movie/${movie.id}`}>
-              <img
-                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                alt={movie.title}
-                className="img-fluid"
-              />
-            </Link>
-            <p className="mt-2">{movie.title}</p>
-            <div className="text-center">
-            <button
-              className={`btn ${isFavorite(movie.id) ? 'btn-danger' : 'btn-outline-secondary'}`}
-              onClick={() => handleToggleFavorite(movie)}
-            >
-              <FontAwesomeIcon icon={faHeart} /> {isFavorite(movie.id)}
-            </button>
-          </div>
-         </div>
+	  <MovieCard
+	  key={movie.id}
+	  movie={movie}
+	  isFavorite={isFavorite}
+	  handleToggleFavorite={handleToggleFavorite}
+	/>
+
         ))}
       </div>
       <Pagination

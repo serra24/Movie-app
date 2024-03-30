@@ -32,8 +32,8 @@ const Favorites = () => {
   };
 
   return (
-    <div>
-      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+    <div >
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4" style={{ minHeight: "350px" }}>
         {currentFavorites.map((favorite) => (
           <div key={favorite.id} className="col mb-4">
             <div className="card h-100">

@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector } from 'react-redux';
 import { useLanguage } from '../context/LanguageContext';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { Navbar, Nav, Container } from 'react-bootstrap'; // Import Bootstrap components
+import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstrap'; 
 
-function CustomNavbar() {
+function CustomNavbar({ onSearch }) {
   const favoritesCount = useSelector((state) => state.favorites.length);
-  const { changeLanguage } = useLanguage();
   const [selectedLanguage, setSelectedLanguage] = useState('en');
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   const handleLanguageChange = (language) => {
-    changeLanguage(language);
-    setSelectedLanguage(language);
+    // Handle language change
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Search query:', searchQuery); // Log the search query
+    onSearch(searchQuery); // Trigger search in parent component
+    navigate('/search', { state: { query: searchQuery } }); // Navigate to search results page
   };
 
   return (
@@ -24,14 +31,23 @@ function CustomNavbar() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarNav" />
         <Navbar.Collapse id="navbarNav">
+          <Form className="d-flex" onSubmit={handleSubmit}>
+            <FormControl
+              type="text"
+              placeholder="Search"
+              className="mr-2"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <Button variant="outline-success" type="submit">Search</Button>
+          </Form>
           <Nav className="ms-auto">
             <Dropdown>
               <Dropdown.Toggle variant="secondary" id="dropdown-basic" className="btn btn-light">
                 {selectedLanguage === 'en' ? 'En' : 'Ar'}
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleLanguageChange('en')}>En</Dropdown.Item>
-                <Dropdown.Item onClick={() => handleLanguageChange('ar')}>Ar</Dropdown.Item>
+                {/* Language options */}
               </Dropdown.Menu>
             </Dropdown>
             <Nav.Link as={Link} to="/favorites">
